@@ -197,14 +197,14 @@ void save_students(BazaStudentow baza)
 int main()
 {
     BazaStudentow baza;
-    baza.nazwa_uczelni = "Politechnika Warszawska";
+    baza.nazwa_uczelni = "Politechnika Wrocławska";
     baza.liczba_studentow = 0;
 
     int wybor = -1;
 
     while (wybor != 0)
     {
-        cout << "Menu:" << endl;
+        cout << "Menu PWR:" << endl;
         cout << "1. Wyświetl bazę studentów" << endl;
         cout << "2. Dodaj studenta" << endl;
         cout << "3. Usuń studenta" << endl;
