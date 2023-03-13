@@ -3,6 +3,9 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -193,6 +196,22 @@ void save_students(BazaStudentow baza)
 
     plik.close();
 }
+void loading()
+{
+    int i = 0;
+    char bar[11];
+    while (i < 10)
+    {
+        system("clear");
+        bar[i++] = '#';
+        bar[i] = '\0';
+        printf("\n\nLOADING [%-10s]", bar);
+        usleep(199900);
+    }
+
+    system("clear");
+    printf("\n");
+}
 
 int main()
 {
@@ -248,11 +267,13 @@ int main()
 
         case 5:
             cout << "Wczytywanie danych" << endl;
+            loading();
             load_students(baza);
             cout << "Wczytano" << endl;
             break;
         case 6:
             cout << "Zapisywanie danych" << endl;
+            loading();
             save_students(baza);
             cout << "Zapisano" << endl;
             break;
