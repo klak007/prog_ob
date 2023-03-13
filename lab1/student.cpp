@@ -199,14 +199,14 @@ void save_students(BazaStudentow baza)
 void loading()
 {
     int i = 0;
-    char bar[11];
-    while (i < 10)
+    char bar[7];
+    while (i < 6)
     {
         system("clear");
         bar[i++] = '#';
         bar[i] = '\0';
-        printf("\n\nLOADING [%-10s]", bar);
-        usleep(199900);
+        printf("\n\nLOADING [%-6s]", bar);
+        usleep(70000);
     }
 
     system("clear");
