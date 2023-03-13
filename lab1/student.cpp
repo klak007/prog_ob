@@ -266,14 +266,12 @@ int main()
         }
 
         case 5:
-            cout << "Wczytywanie danych" << endl;
-            loading();
+            //loading();
             load_students(baza);
             cout << "Wczytano" << endl;
             break;
         case 6:
-            cout << "Zapisywanie danych" << endl;
-            loading();
+            //loading();
             save_students(baza);
             cout << "Zapisano" << endl;
             break;
