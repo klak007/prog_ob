@@ -103,7 +103,7 @@ void add_student(BazaStudentow &baza)
         return;
     }
 
-    Student nowy_student = read_student(); // Wczytujemy dane nowego studenta z klawiatury
+    Student nowy_student = read_student(); // Wczytujemy dane nowego studenta
 
     baza.studenci[baza.liczba_studentow] = nowy_student; // Dodajemy nowego studenta do tablicy w bazie
     baza.liczba_studentow++;                             // Zwiększamy liczbę studentów w bazie o 1
