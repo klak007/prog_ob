@@ -1,16 +1,11 @@
 #include "MinesweeperBoard.h"
-// MinesweeperBoard::MinesweeperBoard()
-// {
-//     width = 10;
-//     height = 10;
-//     setMinesRandomly(10);
-// }
+
 MinesweeperBoard::MinesweeperBoard(int w, int h, GameMode mode)
 {
     width = w;
     height = h;
-
-    // Ustaw stan początkowy pól planszy
+    gameState = RUNNING;
+    // set all places to 0
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
@@ -20,7 +15,7 @@ MinesweeperBoard::MinesweeperBoard(int w, int h, GameMode mode)
             data[i][j].hasFlag = false;
         }
     }
-    // Rozmieszczenie min na planszy w zależności od trybu
+    // how many mines in each of gamemodes
     switch (mode)
     {
     case DEBUG:
@@ -37,17 +32,17 @@ MinesweeperBoard::MinesweeperBoard(int w, int h, GameMode mode)
         break;
     }
 
-    /*// Ustaw pole (wiersz=0, kolumna=0)
+    /*// mine (row=0, column=0)
     data[0][0].hasMine = true;
     data[0][0].isRevealed = false;
     data[0][0].hasFlag = false;
 
-    // Ustaw pole (wiersz=1, kolumna=1)
+    // revealed (row=1, column=1)
     data[1][1].hasMine = false;
     data[1][1].isRevealed = true;
     data[1][1].hasFlag = false;
 
-    // Ustaw pole (wiersz=0, kolumna=2)
+    // mine flagged (row=0, column=2)
     data[0][2].hasMine = true;
     data[0][2].isRevealed = false;
     data[0][2].hasFlag = true;*/
@@ -55,7 +50,7 @@ MinesweeperBoard::MinesweeperBoard(int w, int h, GameMode mode)
 
 void MinesweeperBoard::setMinesRandomly(int numberOfMines)
 {
-    // Rozmieszczenie min na planszy losowo
+    // randomly set all the mines on the board
     for (int i = 0; i < numberOfMines; i++)
     {
         int x, y;
@@ -93,15 +88,15 @@ void MinesweeperBoard::setDebugMines()
 
 void MinesweeperBoard::debug_display() const
 {
-    // wypisanie numerów kolumn
+    // numbers of columns
     std::cout << " ";
     for (int i = 0; i < width; i++)
     {
         std::cout << "    " << i;
     }
-    std::cout << "\n";
+    std::cout << std::endl;
 
-    // wypisanie planszy
+    // drawing the board
     for (int i = 0; i < height; i++)
     {
         std::cout << i << " ";
@@ -110,32 +105,32 @@ void MinesweeperBoard::debug_display() const
             std::string output = "[";
             if (data[i][j].hasMine)
             {
-                output += "M";
+                output += "M"; // if place has Mine, write M
             }
             else
             {
-                output += ".";
+                output += "."; // if not write .
             }
             if (data[i][j].isRevealed)
             {
-                output += "o";
+                output += "o"; // if place is revealed place o
             }
             else
             {
-                output += ".";
+                output += "."; // if not write .
             }
             if (data[i][j].hasFlag)
             {
-                output += "f";
+                output += "f"; // if place is flagged, write f
             }
             else
             {
-                output += ".";
+                output += "."; // if not write .
             }
             output += "]";
             std::cout << output;
         }
-        std::cout << "\n";
+        std::cout << std::endl;
     }
 }
 
@@ -186,22 +181,77 @@ int MinesweeperBoard::countMinesAround(int row, int col) const
 }
 bool MinesweeperBoard::hasFlag(int row, int col) const
 {
-    if (row < 0 || row >= height || col < 0 || col >= width) // sprawdź, czy (row, col) znajduje się na planszy
+    if (row < 0 || row >= height || col < 0 || col >= width) // chech if (row, col) is within board
     {
         return false;
     }
 
-    if (data[row][col].isRevealed) // sprawdź, czy pole zostało już odkryte
+    if (data[row][col].isRevealed) // chech if place revealed
     {
         return false;
     }
 
-    if (data[row][col].hasFlag) // sprawdź, czy na polu znajduje się flaga
+    if (data[row][col].hasFlag) // check if place has the flag
     {
         return true;
     }
     else
     {
         return false;
+    }
+}
+
+void MinesweeperBoard::toggleFlag(int row, int col)
+{
+    if (gameState != RUNNING)
+    {
+        return;
+    }
+
+    if (row < 0 || row >= height || col < 0 || col >= width)
+    {
+        return;
+    }
+
+    Field &field = data[row][col];
+    if (field.isRevealed)
+    {
+        return;
+    }
+
+    field.hasFlag = !field.hasFlag;
+}
+
+GameState MinesweeperBoard::getGameState() const
+{
+    // Check if game is finished (either win or loss)
+    bool allMinesRevealed = true;
+    bool anyNonMineFieldUnrevealed = false;
+    for (int row = 0; row < height; row++)
+    {
+        for (int col = 0; col < width; col++)
+        {
+            const Field &field = data[row][col];
+            if (field.hasMine && !field.isRevealed)
+            {
+                allMinesRevealed = false;
+            }
+            else if (!field.hasMine && !field.isRevealed)
+            {
+                anyNonMineFieldUnrevealed = true;
+            }
+            else if (field.hasMine && field.isRevealed)
+            {
+                return FINISHED_LOSS;
+            }
+        }
+    }
+    if (allMinesRevealed || !anyNonMineFieldUnrevealed)
+    {
+        return FINISHED_WIN;
+    }
+    else
+    {
+        return RUNNING;
     }
 }
