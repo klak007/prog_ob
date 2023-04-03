@@ -31,6 +31,7 @@ private:
     int width;
     int height;
     int mineCount;
+    bool firstMove = 1;
     GameState gameState;
 
 public:
@@ -47,6 +48,8 @@ public:
     int countMinesAround(int row, int col) const;
 
     bool hasFlag(int row, int col) const;
+    void revealField(int row, int col);
+    bool isRevealed(int row, int col) const;
     void toggleFlag(int row, int col);
 
     GameState getGameState() const;

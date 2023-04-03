@@ -222,6 +222,92 @@ void MinesweeperBoard::toggleFlag(int row, int col)
     field.hasFlag = !field.hasFlag;
 }
 
+void MinesweeperBoard::revealField(int row, int col)
+{
+    // Check if game is already finished
+    if (gameState != RUNNING)
+        return;
+
+    // Check if field is outside board
+    if (row < 0 || row >= height || col < 0 || col >= width)
+        return;
+
+    // Check if field was already revealed
+    if (data[row][col].isRevealed)
+        return;
+
+    // Check if there is a flag on the field
+    if (data[row][col].hasFlag)
+        return;
+
+    // If it's the first player action, move mine if necessary
+    if (firstMove)
+    {
+        if (data[row][col].hasMine)
+        {
+            setMinesRandomly(1);
+            if (data[row][col].hasMine)
+                data[row][col].hasMine = false;
+            else
+                mineCount++;
+        }
+        firstMove = false;
+    }
+
+    // Reveal the field
+    data[row][col].isRevealed = true;
+    if (data[row][col].hasMine)
+    {
+        gameState = FINISHED_LOSS;
+        return;
+    }
+
+    // Check if player won the game
+    int unrevealedCount = 0;
+    for (int i = 0; i < height; ++i)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+            if (!data[i][j].isRevealed && !data[i][j].hasMine)
+            {
+                unrevealedCount++;
+            }
+        }
+    }
+
+    if (unrevealedCount == mineCount)
+    {
+        gameState = FINISHED_WIN;
+        return;
+    }
+
+    // If there are no mines around, reveal neighboring fields recursively
+    if (countMinesAround(row, col) == 0)
+    {
+        for (int i = row - 1; i <= row + 1; ++i)
+        {
+            for (int j = col - 1; j <= col + 1; ++j)
+            {
+                if (i >= 0 && i < height && j >= 0 && j < width && !(i == row && j == col))
+                {
+                    revealField(i, j);
+                }
+            }
+        }
+    }
+}
+
+bool MinesweeperBoard::isRevealed(int row, int col) const
+{
+    if (row < 0 || row >= height || col < 0 || col >= width)
+    {
+        // field is outside of the board
+        return false;
+    }
+
+    return data[row][col].isRevealed;
+}
+
 GameState MinesweeperBoard::getGameState() const
 {
     // Check if game is finished (either win or loss)
