@@ -42,8 +42,13 @@ public:
     int getMineCount() const;
 
     void setMinesRandomly(int numberOfMines);
-    // void setMinesRandomly(GameMode mode);
     void setDebugMines();
+
+    int countMinesAround(int row, int col) const;
+
+    bool hasFlag(int row, int col) const;
+
+    void toggleFlag(int row, int col);
 };
 
 #endif

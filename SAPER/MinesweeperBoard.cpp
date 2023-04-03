@@ -87,6 +87,8 @@ void MinesweeperBoard::setDebugMines()
     {
         data[i][0].hasMine = true;
     }
+    data[3][3].hasFlag = true;
+    data[5][0].hasFlag = true;
 }
 
 void MinesweeperBoard::debug_display() const
@@ -161,4 +163,45 @@ int MinesweeperBoard::getMineCount() const
         }
     }
     return mineCount;
+}
+int MinesweeperBoard::countMinesAround(int row, int col) const
+{
+    if (row < 0 || row >= height || col < 0 || col >= width)
+    {
+        return -1;
+    }
+
+    int minesCount = 0;
+    for (int r = std::max(row - 1, 0); r <= std::min(row + 1, height - 1); r++)
+    {
+        for (int c = std::max(col - 1, 0); c <= std::min(col + 1, width - 1); c++)
+        {
+            if (data[r][c].hasMine && !(r == row && c == col))
+            {
+                minesCount++;
+            }
+        }
+    }
+    return minesCount;
+}
+bool MinesweeperBoard::hasFlag(int row, int col) const
+{
+    if (row < 0 || row >= height || col < 0 || col >= width) // sprawdź, czy (row, col) znajduje się na planszy
+    {
+        return false;
+    }
+
+    if (data[row][col].isRevealed) // sprawdź, czy pole zostało już odkryte
+    {
+        return false;
+    }
+
+    if (data[row][col].hasFlag) // sprawdź, czy na polu znajduje się flaga
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
