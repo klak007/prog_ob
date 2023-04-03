@@ -136,3 +136,29 @@ void MinesweeperBoard::debug_display() const
         std::cout << "\n";
     }
 }
+
+int MinesweeperBoard::getBoardWidth() const
+{
+    return width;
+}
+
+int MinesweeperBoard::getBoardHeight() const
+{
+    return height;
+}
+
+int MinesweeperBoard::getMineCount() const
+{
+    int mineCount = 0;
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            if (data[i][j].hasMine)
+            {
+                mineCount++;
+            }
+        }
+    }
+    return mineCount;
+}
