@@ -1,5 +1,5 @@
 CC = g++
 CFLAGS = -Wall -Wextra -pedantic -std=c++11
 
-saper: saper.cpp saper1.h
-	$(CC) $(CFLAGS) saper.cpp -o saper
+saper: MinesweeperBoard.cpp MinesweeperBoard.h main.cpp
+	$(CC) $(CFLAGS) MinesweeperBoard.cpp main.cpp -o saper
