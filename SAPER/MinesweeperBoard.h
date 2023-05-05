@@ -52,6 +52,8 @@ public:
     bool isRevealed(int row, int col) const;
     void toggleFlag(int row, int col);
 
+    char getFieldInfo(int row, int col) const;
+
     GameState getGameState() const;
 };
 

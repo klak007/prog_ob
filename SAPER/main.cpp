@@ -1,4 +1,4 @@
-#include "MinesweeperBoard.h"
+/*#include "MinesweeperBoard.h"
 
 int main()
 {
@@ -27,6 +27,21 @@ int main()
     {
         std::cout << "You won the game\n";
     }
+
+    return 0;
+}
+*/
+#include "MinesweeperBoard.h"
+#include "MSBoardTextView.h"
+#include "MSTextController.h"
+
+int main()
+{
+    MinesweeperBoard board(3, 3, GameMode::NORMAL);
+    MSBoardTextView view(board);
+    MSTextController ctrl(board, view);
+
+    ctrl.play();
 
     return 0;
 }

@@ -308,6 +308,38 @@ bool MinesweeperBoard::isRevealed(int row, int col) const
     return data[row][col].isRevealed;
 }
 
+char MinesweeperBoard::getFieldInfo(int row, int col) const
+{
+    if (row < 0 || row >= height || col < 0 || col >= width)
+    {
+        return '#';
+    }
+    else if (!data[row][col].isRevealed && data[row][col].hasFlag)
+    {
+        return 'F';
+    }
+    else if (!data[row][col].isRevealed && !data[row][col].hasFlag)
+    {
+        return '_';
+    }
+    else if (data[row][col].isRevealed && data[row][col].hasMine)
+    {
+        return 'x';
+    }
+    else
+    {
+        int mines = countMinesAround(row, col);
+        if (mines == 0)
+        {
+            return ' ';
+        }
+        else
+        {
+            return mines + '0';
+        }
+    }
+}
+
 GameState MinesweeperBoard::getGameState() const
 {
     // Check if game is finished (either win or loss)
