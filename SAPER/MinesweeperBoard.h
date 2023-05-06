@@ -35,8 +35,7 @@ private:
     GameState gameState;
 
 public:
-    // MinesweeperBoard();
-    MinesweeperBoard(int width, int height, GameMode mode);
+        MinesweeperBoard(int width, int height, GameMode mode);
     void debug_display() const;
     void setMinesRandomly(int numberOfMines);
     void setDebugMines();

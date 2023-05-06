@@ -1,20 +1,5 @@
-// #ifndef MSBOARDTEXTVIEW_H__
-// #define MSBOARDTEXTVIEW_H__
-
 #include "MinesweeperBoard.h"
 #include "MSBoardTextView.h"
-
-// class MSBoardTextView
-// {
-// private:
-//     MinesweeperBoard &board;
-
-// public:
-//     MSBoardTextView(MinesweeperBoard &board);
-//     void display() const;
-// };
-
-// #endif
 
 MSBoardTextView::MSBoardTextView(MinesweeperBoard &board) : board(board)
 {
