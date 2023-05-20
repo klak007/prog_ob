@@ -138,6 +138,7 @@ int MinesweeperBoard::getMineCount() const
     }
     return mineCount;
 }
+
 int MinesweeperBoard::countMinesAround(int row, int col) const
 {
     if (row < 0 || row >= height || col < 0 || col >= width)
@@ -158,6 +159,7 @@ int MinesweeperBoard::countMinesAround(int row, int col) const
     }
     return minesCount;
 }
+
 bool MinesweeperBoard::hasFlag(int row, int col) const
 {
     if (row < 0 || row >= height || col < 0 || col >= width)
